@@ -5,6 +5,8 @@ matplotlib
 seaborn
 plotly
 SMOTE
-sklearn
+scikit-learn==1.2.2
+scikit-posthocs==0.9.0
+scipy==1.9.3
 OneHotEncoder
 RandomForestClassifier
