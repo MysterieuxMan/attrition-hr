@@ -18,7 +18,7 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.pipeline import make_pipeline
 
 
-df = pd.read_csv('employee_data.csv')
+df = pd.read_csv('https://raw.githubusercontent.com/MysterieuxMan/attrition-hr/main/employee_data.csv')
 df = df.dropna()
 
 department_mapping = {'Human Resources': 0, 'Research & Development': 1, 'Sales': 2}
@@ -105,11 +105,17 @@ def make_prediction(age, businesstravel,dailyrate,department,distanceFromHome,
         bg_color = "rgba(255, 255, 0, 0.2)" 
     else:
         Risk ="Weak" 
-        bg_color = "rgba(0, 128, 0, 0.2)"    
+        bg_color = "rgba(0, 128, 0, 0.2)"
+
+    if prediction > 0.4:
+        result1 = "Attrition"
+    else:
+        result1 = "No Attrition"    
 
     result = f"<div style='background-color: {bg_color}; padding: 10px; border-radius: 5px; color: white;'>This employee has a <span style='color: white;'>{Risk}</span> Risk to quit with Probability = {round(prediction, 5)}.</div>"
     st.markdown(result, unsafe_allow_html=True)
-    return f"{Risk}"
+
+    return f"Prediction: {result1}"
 
 business_travel_map = {"Non-Travel": 0, "Travel_Frequently": 1, "Travel_Rarely": 2}
 department_map = {"Human Resources": 0, "Research & Development": 1, "Sales": 2}
@@ -152,7 +158,11 @@ def main():
                                  monthlyincome, relationshipsatisfaction,
                                  stockoptionlevel, totalworkingyears, trainingtimeslastyear,
                                  worklifebalance, yearsincurrentrole)
-        st.success(result)
+        
+        if result == "Prediction: Attrition":
+            st.error(result)
+        else:
+            st.success(result)
 
 if __name__ == "__main__":
     main()
